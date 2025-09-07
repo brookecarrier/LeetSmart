@@ -5,12 +5,12 @@ This app scrapes your LeetCode solved problems and recommends new problems to pr
 ## Setup
 
 1. Clone repo  
-2. Create `.env` file with `OPENAI_API_KEY`  
+2. Create `.env` file with `GROQ_API_KEY`  
 3. Install dependencies: `pip install -r requirements.txt`  
 4. Run: `streamlit run app.py`
 
 ## Features
 
 - Scrapes LeetCode user solved problems  
-- Uses GPT to recommend problems  
+- Uses Groq to recommend problems  
 - Simple Streamlit UI
