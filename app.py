@@ -11,22 +11,30 @@ def parse_plan_and_projection(plan_text, current_easy, current_medium, current_h
 
     import re
 
+    total_easy = 0
+    total_medium = 0
+    total_hard = 0
+
     for line in plan_text.splitlines():
         line = line.strip()
+
         if line.lower().startswith("day"):
             daily_plan.append(line)
-        elif line.lower().startswith("summary"):
-            # Extract numbers from summary line
+
+        elif "total easy" in line.lower() and "total medium" in line.lower() and "total hard" in line.lower():
+            # Example: "Summary: Total Easy: 10, Total Medium: 20, Total Hard: 19"
             numbers = list(map(int, re.findall(r'\d+', line)))
             if len(numbers) >= 3:
-                # Add planned problems to current stats instead of replacing
-                projected_easy = current_easy + numbers[0]
-                projected_medium = current_medium + numbers[1]
-                projected_hard = current_hard + numbers[2]
+                total_easy, total_medium, total_hard = numbers[:3]
 
     # Fallback if no daily plan lines detected
     if not daily_plan:
         daily_plan = plan_text.splitlines()
+
+    # Add the totals from the plan to the user's current stats
+    projected_easy = current_easy + total_easy
+    projected_medium = current_medium + total_medium
+    projected_hard = current_hard + total_hard
 
     projected = {
         "easy": projected_easy,
@@ -35,6 +43,7 @@ def parse_plan_and_projection(plan_text, current_easy, current_medium, current_h
     }
 
     return "\n".join(daily_plan), projected
+
 
 
 st.set_page_config(page_title="LeetSmart Interview Prep")

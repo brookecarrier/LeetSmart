@@ -22,8 +22,9 @@ Day 1: Solve X Easy, Y Medium, Z Hard problems
 Day 2: Solve ...
 
 At the end, provide a summary line exactly in this format:
-
 Summary: Total Easy: A, Total Medium: B, Total Hard: C
+
+Do NOT include the user's current totals in the summary — only the problems they will add during the plan.
 
 Then, provide a motivating sentence or two to keep the user focused!
 
