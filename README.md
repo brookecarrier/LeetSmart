@@ -1,4 +1,4 @@
-# Leet Smart
+# LeetSmart
 
 This app scrapes your LeetCode solved problems and recommends new problems to practice based on your weak areas using Groq AI.
 

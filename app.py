@@ -2,14 +2,13 @@ import streamlit as st
 from datetime import datetime
 from scraper import get_solved_stats
 from recommender import get_study_plan
+import re
 
 def parse_plan_and_projection(plan_text, current_easy, current_medium, current_hard):
     daily_plan = []
     projected_easy = current_easy
     projected_medium = current_medium
     projected_hard = current_hard
-
-    import re
 
     total_easy = 0
     total_medium = 0
@@ -31,7 +30,7 @@ def parse_plan_and_projection(plan_text, current_easy, current_medium, current_h
     if not daily_plan:
         daily_plan = plan_text.splitlines()
 
-    # Add the totals from the plan to the user's current stats
+    # Add totals from plan to the user's current stats
     projected_easy = current_easy + total_easy
     projected_medium = current_medium + total_medium
     projected_hard = current_hard + total_hard
@@ -43,7 +42,6 @@ def parse_plan_and_projection(plan_text, current_easy, current_medium, current_h
     }
 
     return "\n".join(daily_plan), projected
-
 
 
 st.set_page_config(page_title="LeetSmart Interview Prep")
@@ -58,7 +56,7 @@ if username and interview_date:
     if st.button("Generate Study Plan"):
         with st.spinner("Fetching your stats and generating plan..."):
             try:
-                # Step 1: Fetch current stats
+                # Fetch current stats
                 stats = get_solved_stats(username)
                 today = datetime.now().date()
                 days_left = (interview_date - today).days
@@ -66,7 +64,7 @@ if username and interview_date:
                 if days_left <= 0:
                     st.error("Your interview date must be in the future!")
                 else:
-                    # Step 2: Display current stats
+                    # Display current stats
                     st.subheader("📊 Your Current LeetCode Stats")
                     st.markdown(f"""
                     - 🟢 Easy: **{stats['easy']}**
@@ -75,25 +73,21 @@ if username and interview_date:
                     - ✅ Total Solved: **{stats['easy'] + stats['medium'] + stats['hard']}**
                     """)
 
-                    # Step 3: Get raw AI plan
+                    # Get AI plan
                     plan_raw, _ = get_study_plan(
                         stats["easy"], stats["medium"], stats["hard"], days_left
                     )
 
-                    # Debug: Show raw AI output so you can inspect it
+                    # Display AI plan
                     st.subheader("📅 Daily Study Plan")
                     st.text(plan_raw)
 
-                    # Step 4: Parse AI output
+                    # Parse AI plan
                     plan, projected = parse_plan_and_projection(
                         plan_raw, stats["easy"], stats["medium"], stats["hard"]
                     )
 
-                    # Step 5: Show cleaned study plan
-                    #st.subheader("📅 AI-Generated Study Plan")
-                    #st.markdown(plan)
-
-                    # Step 6: Show projected stats
+                    # Display projected stats
                     st.subheader("🔮 Projected Stats After Plan")
                     st.markdown(f"""
                     - 🟢 Easy: **{projected['easy']}** (was {stats['easy']})

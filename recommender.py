@@ -28,7 +28,6 @@ Do NOT include the user's current totals in the summary — only the problems th
 
 Then, provide a motivating sentence or two to keep the user focused!
 
-
 Keep your response concise.
 """
 
